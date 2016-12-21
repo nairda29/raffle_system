@@ -1,3 +1,6 @@
+body{
+	/*background-color: red;*/
+}
 .button{
 	padding: 15px 25px;
 	font-size: 24px;
@@ -18,4 +21,15 @@
 	background-color: #3e8e41;
 	box-shadow: 0 5x #666;
 	transform: translateY(4px);
+}
+.col-center-block {
+    float: none;
+    display: block;
+    margin: 0 auto;	
+}
+.remove-button{
+
+}
+.remove-button:hover{
+	cursor:pointer;
 }

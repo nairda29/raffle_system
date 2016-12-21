@@ -11,11 +11,13 @@ class Raffle extends CI_Controller
 		$this->load->library('form_validation');
 		// $this->load->database();
 		$this->load->model('participant_model');
+		$this->load->model('prize_model');
 	}
 	function index()
 	{
 		$data['page_title']= 'Raffle System';
 		$data['participant_list'] = $this->participant_model->get_participant();
+		$data['prize_list'] = $this->prize_model->get_prize();
 		// $data['title'] = $data['news_item']['title'];
 
 		$this->load->view('templates/header',$data);
@@ -31,11 +33,8 @@ class Raffle extends CI_Controller
 		$this->load->view('pages/home', $data);
 		$this->load->view('templates/footer');
 	}
-	function create()
+	function add_participant()
 	{
-		// $this->load->helper('form');
-        // $this->load->library('form_validation');
-
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		if ($this->form_validation->run() === FALSE)
 		{
@@ -45,6 +44,21 @@ class Raffle extends CI_Controller
 		else
 		{
 			$this->participant_model->create_participant();
+			// $this->index();
+			redirect('raffle/index');
+		}
+	}
+	function add_prize()
+	{
+		$this->form_validation->set_rules('prize', 'Prize Name', 'required');
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->index();
+
+		}
+		else
+		{
+			$this->prize_model->create_prize();
 			// $this->index();
 			redirect('raffle/index');
 		}
