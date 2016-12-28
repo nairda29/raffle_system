@@ -28,5 +28,9 @@ class Prize_model extends CI_Model
 			return $query->result_array();
 		}
 	}
+	function remove_prize($id)
+	{
+		return $this->db->delete('prize', array('id' => $id));
+	}
 }
 ?>

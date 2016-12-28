@@ -63,5 +63,11 @@ class Raffle extends CI_Controller
 			redirect('raffle/index');
 		}
 	}
+	function delete_prize($id)
+	{
+		if ($this->prize_model->remove_prize) {
+			redirect('raffle/index');
+		}
+	}
 }
 ?>

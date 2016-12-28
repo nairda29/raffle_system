@@ -14,7 +14,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <div class="well well-sm">STATUS</div>
+          <div class="well well-sm" id="status_message">STATUS</div>
         </div>
         <div class="col-sm-6">
           <?php 
