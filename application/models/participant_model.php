@@ -23,6 +23,7 @@ class Participant_model extends CI_Model
 			'bday' => $this->input->post('bday'),
 			'contact_number' => $this->input->post('contact_number'),
 			'annual_fee' => $this->input->post('annual_fee'),
+			'encoder_id' => $this->session->userdata('logged_id')
 			);
 
 		return $this->db->insert('participant', $data);
@@ -35,10 +36,33 @@ class Participant_model extends CI_Model
 			return $query->result_array();
 		}
 	}
+	function get_total_number()
+	{
+		// $this->db->where()
+		$query = $this->db->get('participant');
+		return count($query);
+	}
+	function fetch_data($limit, $id) {
+
+		$this->db->limit($limit,$id);
+
+		// $this->db->where('qq', $id);
+
+		$query = $this->db->get("participant");
+		// echo"<script> console.log(".$query.");</script>";
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $row) {
+				$data[] = $row;
+			}
+
+			return $data;
+		}
+		return false;
+	}
 
 	function login($username, $password)
 	{
-		$this -> db -> select('uid, username, password');
+		$this -> db -> select();
 		$this -> db -> from('users');
 		$this -> db -> where('username', $username);
 		$this -> db -> where('password', MD5($password));
@@ -48,13 +72,7 @@ class Participant_model extends CI_Model
 
 		if($query -> num_rows() == 1)
 		{
-			$r = $query ->row();
-			if ($r->priv == "admin") {
-				$this->session->set_userdata('priv', 'admin');
-			}
-			elseif ($r->priv == "user") {
-				$this->session->set_userdata('priv', 'admin');
-			}
+			
 			return $query->result();
 		}
 		else

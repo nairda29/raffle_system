@@ -16,34 +16,22 @@ class Raffle extends CI_Controller
 
 
 	function postWinner(){
-$data = array(
-	'table_name' => 'prize',
-'part_id' => $this->input->post('part_id'),
-'prize_id'=>$this->input->post('prize_id')
-);
-			$this->participant_model->updateWinner();
-			$this->prize_model->updatePrize();
-			redirect('raffle/index');
-			
+		$data = array(
+			'table_name' => 'prize',
+			'part_id' => $this->input->post('part_id'),
+			'prize_id'=>$this->input->post('prize_id')
+			);
+		$this->participant_model->updateWinner();
+		$this->prize_model->updatePrize();
+		redirect('raffle/index');
 
-
-
-	
 	}
 	function index()
 	{
-		// $data['page_title']= 'Raffle System';
-		// $data['participant_list'] = $this->participant_model->get_participant();
-		// $data['prize_list'] = $this->prize_model->get_prize();
-		// // $data['title'] = $data['news_item']['title'];
-
-		// $this->load->view('templates/header',$data);
-		// $this->load->view('pages/home', $data);
-		// $this->load->view('templates/footer');
 
 		$is_logged_in = $this->session->userdata('is_logged_in');
 		if ($is_logged_in){
-			$priv =  $this->session->userdata('priv');
+			$priv = $is_logged_in;
 			if ($priv == 'admin') {
 				redirect('raffle/view');
 			}
@@ -52,12 +40,34 @@ $data = array(
 			}
 		}
 		else{
+			echo "<script>console.log('not logged in');</script>";
 			redirect('raffle/login_page');
 		}
 	}
 	function encode()
 	{
+		$this->load->library('pagination');
+		$config["base_url"] = base_url() . "/raffle_system/raffle/encode";
+		$config['total_rows'] = $this->participant_model->get_total_number();
+		$config['per_page'] = 10;
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Previous';
+		$config['use_page_numbers'] = TRUE;
+		$config['cur_tag_open'] = '&nbsp;<a class="current">';
+		$config['cur_tag_close'] = '</a>';
+
+		$str_links = $this->pagination->create_links();
+		$data["links"] = explode('&nbsp;',$str_links );
+		if($this->uri->segment(4)){
+			$page = ($this->uri->segment(4)) ;
+		}
+		else{
+			$page = 1;
+		}
+		$data["participant_list"] = $this->participant_model->fetch_data($config["per_page"], $page);
+		$this->pagination->initialize($config);
 		$data['page_title']= 'Raffle System';
+		// $data['participant_list'] = $this->participant_model->get_participant();
 		$this->load->view('templates/header',$data);
 		$this->load->view('pages/data_input', $data);
 		$this->load->view('templates/footer');
@@ -76,7 +86,7 @@ $data = array(
 		else
 		{
      //Go to private area
-			redirect('raffle/index', 'refresh');
+			redirect('raffle/');
 		}
 	}
 	function login_page()
@@ -122,7 +132,7 @@ $data = array(
 		{
 			$this->participant_model->create_participant();
 			// $this->index();
-			redirect('raffle/index');
+			redirect('raffle/encode');
 		}
 	}
 	function add_prize()
@@ -142,7 +152,7 @@ $data = array(
 	}
 	function remove_prize($id)
 	{
-		if ($this->prize_model->remove_prize($prize_id)) {
+		if ($this->prize_model->remove_prize($id)) {
 			redirect('raffle/index');
 		}
 	}
@@ -157,14 +167,24 @@ $data = array(
 
 		if($result)
 		{
-			$sess_array = array();
+			$r = array();
 			foreach($result as $row)
 			{
-				$sess_array = array(
-					'uid' => $row->id,
-					'username' => $row->username
+				$r = array(
+					'uid' => $row->uid,
+					'username' => $row->username,
+					'priv' => $row->priv
 					);
-				$this->session->set_userdata('is_logged_in', $sess_array);
+
+				$this->session->set_userdata('is_logged_in',$row->priv);
+				$this->session->set_userdata('logged_id',$row->uid);
+				// echo "<script>console.log('yeah');</script>";
+				// if ($r->priv == "admin") {
+				// 	$this->session->set_userdata('priv', 'admin');
+				// }
+				// elseif ($r->priv == "user") {
+				// 	$this->session->set_userdata('priv', 'admin');
+				// }
 			}
 			return TRUE;
 		}
@@ -176,9 +196,9 @@ $data = array(
 	}
 	function logout()
 	{
-		$this->session->unset_userdata('logged_in');
+		$this->session->unset_userdata('is_logged_in');
 		session_destroy();
-		redirect('home', 'refresh');
+		redirect('raffle');
 	}
 }
 ?>

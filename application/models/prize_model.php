@@ -35,14 +35,14 @@ class Prize_model extends CI_Model
 
 	function updatePrize(){
 
- $data = array(
-'part_id' => $this->input->post('part_id'),
-'prize_id'=>$this->input->post('prize_id')
-);
- extract($data);
-    $this->db->where('prize_id', $prize_id);
-    $this->db->update('prize', array('prize_winner' => $part_id));
-    return true;
+		$data = array(
+			'part_id' => $this->input->post('part_id'),
+			'prize_id'=>$this->input->post('prize_id')
+			);
+		extract($data);
+		$this->db->where('prize_id', $prize_id);
+		$this->db->update('prize', array('prize_winner' => $part_id));
+		return true;
 		
 	}
 }

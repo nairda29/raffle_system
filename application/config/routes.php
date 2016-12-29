@@ -53,6 +53,5 @@ $route['default_controller'] = 'Raffle';
 
 // $route['404_override'] = '';
 // $route['translate_uri_dashes'] = FALSE
-;
-$route['login'] = 'raffle/login_page';
+// $route['login'] = 'raffle/login_page';
 
