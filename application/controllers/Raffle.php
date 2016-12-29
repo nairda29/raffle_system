@@ -13,6 +13,10 @@ class Raffle extends CI_Controller
 		$this->load->model('participant_model');
 		$this->load->model('prize_model');
 	}
+
+	function postMeaning(){
+		
+	}
 	function index()
 	{
 		$data['page_title']= 'Raffle System';

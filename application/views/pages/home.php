@@ -62,9 +62,10 @@
         $last_id;
       foreach ($prize_list as $row) {
         $active_id = "";
-        if (is_null($row['name'])) $active_id = "active_id";
+        if (is_null($row['name'])) $active_id = "active_prize";
         
-        echo "<tr id='{$active_id}' data-value={$row['prize_id']}><td>".
+        echo "<tr><td>".
+        "<input type='hidden' id={$active_id} value={$row['prize_id']}>".
         $row['prize_name']. '</td><td>'.
         $row["name"]. '</td><td>'.
         '<td><span class="glyphicon glyphicon-remove remove-button" data-toggle="tooltip" title="Remove"></span></td></tr>';

@@ -45,12 +45,12 @@ $(document).ready(function() {
   $("#claim_button").click (function () {
     
     var part_id = $("#part_id").val();
-    var prize_id = $("#active_id").val();
+    var prize_id = $("#active_prize").val();
 console.log(prize_id);
 
     $("status_message").text("Prize Claimed!");
-    console.log(status);
-    if (!status){
+    console.log(part_id);
+    if (part_id != 0){
 
       var data = {
           part_id: part_id,
@@ -60,6 +60,14 @@ console.log(prize_id);
     console.log('Prize Claimed!');
         status = false;
     }
+
+    $.ajax({
+      type: "POST",
+      url: 'postMeaning',
+      data : { part_id: part_id,
+          prize_id: prize_id }
+
+    });
 
   });
 });
