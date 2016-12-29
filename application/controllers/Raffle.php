@@ -14,8 +14,20 @@ class Raffle extends CI_Controller
 		$this->load->model('prize_model');
 	}
 
-	function postMeaning(){
-		
+	function postWinner(){
+$data = array(
+	'table_name' => 'prize',
+'part_id' => $this->input->post('part_id'),
+'prize_id'=>$this->input->post('prize_id')
+);
+			$this->participant_model->updateWinner();
+			$this->prize_model->updatePrize();
+			redirect('raffle/index');
+			
+
+
+
+	
 	}
 	function index()
 	{
