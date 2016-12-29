@@ -47,7 +47,7 @@
             <!-- <label for="name">Participant Name:</label> -->
             <input type="hidden" class="form-control" id="part_id_hid" name="part_id" value="0">
             <input type="hidden" class="form-control" id="prize_id_hid" name="prize_id" value="0">
-          <button type="submit" class="btn btn-info btn-block btn-lg" id="claim_button" disabled="true">CLAIM!</button>
+          <button type="submit" class="btn btn-info btn-block btn-lg" id="claim_button" disabled>CLAIM!</button>
 
           </div>
         </form>
