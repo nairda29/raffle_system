@@ -10,7 +10,9 @@
     <div class="col-sm-8">
       <!-- <div class="well">STATUS</div> -->
       <div class="jumbotron text-center">
-        <h1 id="part_name">Participant Name</h1>
+        <h1 id="part_name" value="">Participant Name</h1>
+        <input id="part_id" type="hidden" value="0">
+
       </div>
       <div class="row">
         <div class="col-sm-6">
@@ -30,11 +32,14 @@
         </div>
       </div>      
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <button type="button" class="btn btn-success btn-block btn-lg" id="roll_button">START ROLLING</button>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <button type="button" class="btn btn-danger btn-block btn-lg" id="stop_button">STOP!</button>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-info btn-block btn-lg" id="claim_button">CLAIM!</button>
         </div>
       </div>
       <div class="row">
@@ -54,8 +59,12 @@
       </thead>
       <tbody>
       <?php
+        $last_id;
       foreach ($prize_list as $row) {
-        echo '<tr><td>'.
+        $active_id = "";
+        if (is_null($row['name'])) $active_id = "active_id";
+        
+        echo "<tr id='{$active_id}' data-value={$row['prize_id']}><td>".
         $row['prize_name']. '</td><td>'.
         $row["name"]. '</td><td>'.
         '<td><span class="glyphicon glyphicon-remove remove-button" data-toggle="tooltip" title="Remove"></span></td></tr>';
@@ -94,7 +103,7 @@
 <script type="text/javascript">
   participant_array = new Array();
   <?php foreach($participant_list as $row) {
-    echo 'participant_array.push("' . $row['name']. $row['part_id'] . '");';
+    echo 'participant_array.push("'. $row['batch']. '-' . $row['name']. '|' .$row['part_id'] . '");';
   };
   ?>
 </script>

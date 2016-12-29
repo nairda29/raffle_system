@@ -12,6 +12,7 @@ $(document).ready(function() {
       refresh_interval = setInterval(function() {
         count++;
         message_count = (message_count>=3)? 0 : ++message_count;
+
         if (!status) {
           $("#status_message").fadeOut(100, function() {
             $(this)
@@ -19,11 +20,15 @@ $(document).ready(function() {
             .fadeIn(100);
           });
         }
+        var result=participant_array[count].split('|');
+
         $("#part_name").fadeOut(100, function() {
           $(this)
-          .text(participant_array[count])
+          .text(result[0])
           .fadeIn(100);
         });
+        $("#part_id").attr("value",result[1]);
+        
       }, interval);  
       status = true;
     }
@@ -36,5 +41,26 @@ $(document).ready(function() {
         status = false;
       }
     }, 2000);
+  });
+  $("#claim_button").click (function () {
+    
+    var part_id = $("#part_id").val();
+    var prize_id = $("#active_id").val();
+        var th = $(this);
+        var prize_id =  th.attr('data-value');
+console.log(prize_id);
+    $("status_message").text("Prize Claimed!");
+    console.log(status);
+    if (!status){
+
+      var data = {
+          part_id: part_id,
+          prize_id: prize_id
+        };
+        console.log(data);
+    console.log('Prize Claimed!');
+        status = false;
+    }
+
   });
 });
