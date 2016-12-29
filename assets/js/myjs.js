@@ -46,9 +46,8 @@ $(document).ready(function() {
     
     var part_id = $("#part_id").val();
     var prize_id = $("#active_id").val();
-        var th = $(this);
-        var prize_id =  th.attr('data-value');
 console.log(prize_id);
+
     $("status_message").text("Prize Claimed!");
     console.log(status);
     if (!status){
