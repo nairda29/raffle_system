@@ -35,6 +35,7 @@ class Participant_model extends CI_Model
 			return $query->result_array();
 		}
 	}
+
 	function login($username, $password)
 	{
 		$this -> db -> select('uid, username, password');
@@ -60,6 +61,13 @@ class Participant_model extends CI_Model
 		{
 			return false;
 		}
+	}
+	function updateWinner(){
+		$part_id = $this->input->post('part_id');
+
+		$this->db->where('part_id', $part_id);
+		$this->db->update('participant', array('selected' => 1));
+		return true;
 	}
 }
 ?>
