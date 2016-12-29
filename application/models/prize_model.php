@@ -30,7 +30,7 @@ class Prize_model extends CI_Model
 	}
 	function remove_prize($id)
 	{
-		return $this->db->delete('prize', array('id' => $id));
+		return $this->db->delete('prize', array('prize_id' => $id));
 	}
 
 	function updatePrize(){

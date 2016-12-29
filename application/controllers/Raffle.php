@@ -79,9 +79,9 @@ $data = array(
 			redirect('raffle/index');
 		}
 	}
-	function delete_prize($id)
+	function remove_prize($id)
 	{
-		if ($this->prize_model->remove_prize) {
+		if ($this->prize_model->remove_prize($prize_id)) {
 			redirect('raffle/index');
 		}
 	}

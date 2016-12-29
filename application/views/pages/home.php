@@ -45,8 +45,8 @@
           echo validation_errors(); ?>
            <div class="form-group">
             <!-- <label for="name">Participant Name:</label> -->
-            <input type="hidden" class="form-control" id="part_id_hid" name="part_id">
-            <input type="hidden" class="form-control" id="prize_id_hid" name="prize_id">
+            <input type="hidden" class="form-control" id="part_id_hid" name="part_id" value="0">
+            <input type="hidden" class="form-control" id="prize_id_hid" name="prize_id" value="0">
           <button type="submit" class="btn btn-info btn-block btn-lg" id="claim_button" disabled="true">CLAIM!</button>
 
           </div>
@@ -75,15 +75,18 @@
         $active_id = "";
             
         if (is_null($row['name'])) $active_id = "active_prize";
+          if($active_id){
+            
         echo "<script>
     document.getElementById('prize_id_hid').value = {$row['prize_id']};
 
         </script>";
+          }
         echo "<tr><td>".
         "<input type='hidden' id={$active_id} value={$row['prize_id']}>".
         $row['prize_name']. '</td><td>'.
         $row["name"]. '</td><td>';
-        if($active_id) echo "<td><span class='glyphicon glyphicon-remove remove-button' data-toggle='tooltip' title='Remove'></span></td>";
+        if($active_id) echo "<td><a href='remove_prize/{$row["prize_id"]}'><span class='glyphicon glyphicon-remove remove-button' data-toggle='tooltip' title='Remove'></span></a></td>";
 echo "</tr>";
         
         
